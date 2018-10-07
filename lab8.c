@@ -6,7 +6,7 @@ void process_line( char buffer[] );
 void main( void )
 {
 	char line[MAXLINE];
-	gets( line );
+	fgets(line,sizeof(line),stdin);
 	process_line( line );
 	puts( line );
 }
@@ -17,18 +17,20 @@ void process_line( char buffer[] )
 	char *begin;
 	char c;
 	int flag;
+	int flag2;
 	int found;
 	flag = NO;
 	found = NO;
+	flag2 = YES;
 	buf_ptr = buffer;
 	begin = buffer;
 	end = buffer;
 	do
 	{
 		c = *buf_ptr;
-		if( c == ' ' || c == '.' || c == ',' || c == '\n' || c == '\0')
+		if(!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9')))
 		{
-			if( flag == YES )
+			if( flag == YES && flag2 == YES)
 			{
 				end = buf_ptr - 1;
 				if( found == YES )
@@ -41,17 +43,20 @@ void process_line( char buffer[] )
 			}
 			flag = NO;
 			found = NO;
+			flag2 = YES;
 		}
 		else
 		{
 			if( flag == NO ){
 				begin = buf_ptr;
-			if((c == 'q') || (c == 'c') || (c == 'b') || (c == 'd') || (c == 'r'))
-			{
-					found = YES;
+				if((c == 'y') || (c == 'o') || (c == 'u') || (c == 'e') || (c == 'a'))
+				{
+						found = YES;
+				}
+				flag = YES;
 			}
-			}
-			flag = YES;
+			if(c >= '0' && c <= '9')
+				flag2 = NO;
 		}
 		buf_ptr++;
 	}
