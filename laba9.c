@@ -14,14 +14,14 @@ void main(void)
 	fout = fopen("result.txt", "wt" );
 	if( fout == NULL )
 		return;
-    /* Считываем слова из файла */
+    /* Г‘Г·ГЁГІГ»ГўГ ГҐГ¬ Г±Г«Г®ГўГ  ГЁГ§ ГґГ Г©Г«Г  */
     while (feof(finp) == 0 || count > 100)
     {
         fscanf (finp, "%s", word);
         strcpy(words[count++], word);
     }
     fclose(finp);
-    /* Сортировка методом пузырька */
+    /* Г‘Г®Г°ГІГЁГ°Г®ГўГЄГ  Г¬ГҐГІГ®Г¤Г®Г¬ ГЇГіГ§Г»Г°ГјГЄГ  */
     for(i = 1; i < count; i++)
         for(j = 0; j < count - i; j++)
             if(strcmp(words[j], words[j+1]) > 0){
