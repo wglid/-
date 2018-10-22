@@ -49,7 +49,7 @@ void process_line( char buffer[] )
 		{
 			if( flag == NO ){
 				begin = buf_ptr;
-				if((c == 'y') || (c == 'o') || (c == 'u') || (c == 'e') || (c == 'a'))
+				if((c == 'y') || (c == 'o') || (c == 'u') || (c == 'e') || (c == 'a') || (c == 'i') || (c == 'A') || (c == 'Y') || (c == 'O') || (c == 'U') || (c == 'E') || (c == 'I'))
 				{
 						found = YES;
 				}
