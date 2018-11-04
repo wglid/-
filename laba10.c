@@ -5,117 +5,114 @@
 #include <stdlib.h> 
 #include <string.h> 
 #define MAXLINE 1024 
-void main() { 
+void main() 
+{ 
+	FILE *fpin; 
+	char line[MAXLINE]; 
+	char *ptr, **a, x, *str, n; 
+	int q = 1, w = 0, max = 0, j, i, m = 0, k = 0, f = 0; 
+	fpin = fopen("id.txt", "rt"); 
+	if (fpin == NULL) 
+	return; 
+	while (!feof(fpin)) 
+	{ 
+		ptr = fgets(line, MAXLINE, fpin); 
+		if (ptr == NULL) 
+		break; 
+		while (*ptr != 'Ðœ') 
+		{ 
+			while (((*ptr != ' ') && (*ptr != '.') && (*ptr != ',') && (*ptr != '\t') && (*ptr != '\n') && (*ptr != 'Ðœ'))) 
+			{ 
+				ptr++; 
+				q++; 
 
-FILE *fpin; 
-char line[MAXLINE]; 
-char *ptr, **a, x, *str, n; 
-int q = 1, w = 0, max = 0, j, i, m = 0, k = 0, f = 0; 
-fpin = fopen("id.txt", "rt"); 
-if (fpin == NULL) 
-return; 
-while (!feof(fpin)) 
-{ 
-ptr = fgets(line, MAXLINE, fpin); 
-if (ptr == NULL) 
-break; 
-while (*ptr != 'Ì') 
-{ 
-while (((*ptr != ' ') && (*ptr != '.') && (*ptr != ',') && (*ptr != '\t') && (*ptr != '\n') && (*ptr != 'Ì'))) 
-{ 
-ptr++; 
-q++; 
+			} 
+			if (max < q) max = q; 
+			q = 0; 
+			w++; 
+			if ((*ptr == '\n')) 
+			{ 
+				ptr = fgets(line, MAXLINE, fpin); 
+				if (ptr == NULL) 
+				break; 
+			} 
+				while (((*ptr == ' ') || (*ptr == '.') || (*ptr == ',') || (*ptr == '\t'))) 
+				{ 
+					ptr++; 
+				} 
 
-} 
-if (max < q) max = q; 
-q = 0; 
-w++; 
-if ((*ptr == '\n')) 
-{ 
+		} 
 
-ptr = fgets(line, MAXLINE, fpin); 
-if (ptr == NULL) 
-break; 
-
-
-
-} 
-while (((*ptr == ' ') || (*ptr == '.') || (*ptr == ',') || (*ptr == '\t'))) 
-{ 
-ptr++; 
-} 
-
-} 
-
-} 
-fclose(fpin); 
-
-fpin = fopen("id.txt", "rt"); 
-
-a = (char**)malloc(w * sizeof(char*)); 
-for (i = 0; i < w; i++) 
-{ 
-a[i] = (char*)malloc(max * sizeof(char)); 
-} 
-ptr = fgets(line, MAXLINE, fpin); 
-i = 0; 
-while (*ptr != 'Ì') //Äî êîíöà ôàéëà 
-{ 
-if ((*ptr == '\n')) 
-{ 
-
-ptr = fgets(line, MAXLINE, fpin); 
-if (ptr == NULL) 
-break; 
-} 
-for (j = 0; j < max; j++) // öèêë ïî ñòîëáöàì 
-{ 
-if (*ptr == '\n') { 
-break; 
-} 
-if (*ptr == ' ' || *ptr == '.' || *ptr == ',') 
-{ 
-i++; 
-ptr++; 
-break; 
-} 
-a[i][j] = *ptr; 
-ptr++; 
-} 
-} 
-j = 0; 
-for (i = 0; i < w; i++) // öèêë ïî ñòðîêàì 
-{ 
-if ((a[i][j] - 91) < 0) { 
-a[i][j] += 32; 
-} 
-} 
-
-str = (char*)malloc(max * sizeof(char)); 
-for (i = 1; i < w; i++) { 
-for (j = 0; j < w - i; j++) 
-if (strcmp(a[j], a[j + 1]) > 0) { 
-strcpy(str, a[j]); 
-strcpy(a[j], a[j + 1]); 
-strcpy(a[j + 1], str); 
-} 
-} 
-for (i = 0; i < w; i++) // öèêë ïî ñòðîêàì 
-{ 
-for (j = 0; j < max; j++) // öèêë ïî ñòîëáöàì 
-{ 
-printf("%c ", a[i][j]); 
-} 
-printf("\n"); 
-} 
-for (i=0; i < w; i++) {
+	} 
+	fclose(fpin); 
+	fpin = fopen("id.txt", "rt"); 
+	a = (char**)malloc(w * sizeof(char*)); 
+	for (i = 0; i < w; i++) 
+	{ 
+		a[i] = (char*)malloc(max * sizeof(char)); 
+	} 
+	ptr = fgets(line, MAXLINE, fpin); 
+	i = 0; 
+	while (*ptr != 'Ðœ') //Ð”Ð¾ ÐºÐ¾Ð½Ñ†Ð° Ñ„Ð°Ð¹Ð»Ð° 
+	{ 
+		if ((*ptr == '\n')) 
+		{ 
+			ptr = fgets(line, MAXLINE, fpin); 
+			if (ptr == NULL) 
+			break; 
+		} 
+		for (j = 0; j < max; j++) // Ñ†Ð¸ÐºÐ» Ð¿Ð¾ ÑÑ‚Ð¾Ð»Ð±Ñ†Ð°Ð¼ 
+		{ 
+			if (*ptr == '\n') 
+			{ 
+				break; 
+			} 
+			if (*ptr == ' ' || *ptr == '.' || *ptr == ',') 
+			{ 
+				i++; 
+				ptr++; 
+				break; 
+			} 
+			a[i][j] = *ptr; 
+			ptr++; 
+		} 
+	} 
+	j = 0; 
+	for (i = 0; i < w; i++) // Ñ†Ð¸ÐºÐ» Ð¿Ð¾ ÑÑ‚Ñ€Ð¾ÐºÐ°Ð¼ 
+	{ 
+		if ((a[i][j] - 91) < 0) 
+		{ 
+			a[i][j] += 32; 
+		} 
+	} 
+	str = (char*)malloc(max * sizeof(char)); 
+	for (i = 1; i < w; i++) 
+	{ 
+		for (j = 0; j < w - i; j++) 
+		if (strcmp(a[j], a[j + 1]) > 0)		
+		{ 
+			strcpy(str, a[j]); 
+			strcpy(a[j], a[j + 1]); 
+			strcpy(a[j + 1], str); 
+		} 
+	} 
+	for (i = 0; i < w; i++) // Ñ†Ð¸ÐºÐ» Ð¿Ð¾ ÑÑ‚Ñ€Ð¾ÐºÐ°Ð¼ 
+	{ 
+		for (j = 0; j < max; j++) // Ñ†Ð¸ÐºÐ» Ð¿Ð¾ ÑÑ‚Ð¾Ð»Ð±Ñ†Ð°Ð¼ 
+		{ 
+			printf("%c ", a[i][j]); 
+		} 
+		printf("\n"); 
+	} 
+	for (i=0; i < w; i++) 
+	{
 	//for (j=0;j < max; j++) {
 
 		free(a[i]);
 	//}
-}
-fclose(fpin);
-free(a);
+	}
+	fclose(fpin);
+	free(a);
 //for (j = 0; j < max; j++) {
 
 	free(str);
