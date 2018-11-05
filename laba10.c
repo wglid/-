@@ -1,122 +1,96 @@
-#include<stdio.h> 
-#include<conio.h> 
-#include <malloc.h> 
+#include <stdio.h> 
 #include <string.h> 
-#include <stdlib.h> 
-#include <string.h> 
+#include <stdlib.h>  
+
 #define MAXLINE 1024 
-void main() 
+#define NO 0
+#define YES 1
+
+int main() 
 { 
 	FILE *fpin; 
 	char line[MAXLINE]; 
-	char *ptr, **a, x, *str, n; 
-	int q = 1, w = 0, max = 0, j, i, m = 0, k = 0, f = 0; 
-	fpin = fopen("id.txt", "rt"); 
-	if (fpin == NULL) 
-	return; 
-	while (!feof(fpin)) 
-	{ 
-		ptr = fgets(line, MAXLINE, fpin); 
-		if (ptr == NULL) 
-		break; 
-		while (*ptr != 'М') 
-		{ 
-			while (((*ptr != ' ') && (*ptr != '.') && (*ptr != ',') && (*ptr != '\t') && (*ptr != '\n') && (*ptr != 'М'))) 
-			{ 
-				ptr++; 
-				q++; 
+	char **arr;
+	char *ptr;
+	char *start_ptr;
+	int i, j, k;
+	int word_cnt;
+	int word_len;
+	int flag;
 
-			} 
-			if (max < q) max = q; 
-			q = 0; 
-			w++; 
-			if ((*ptr == '\n')) 
-			{ 
-				ptr = fgets(line, MAXLINE, fpin); 
-				if (ptr == NULL) 
-				break; 
-			} 
-				while (((*ptr == ' ') || (*ptr == '.') || (*ptr == ',') || (*ptr == '\t'))) 
-				{ 
-					ptr++; 
-				} 
+	fpin = fopen( "id.txt", "rt" ); 
+	if( fpin == NULL ) 
+		return 1;
 
-		} 
+	i = 0;
+	j = 0;
+	k = 0;
+	word_len = 0;
+	word_cnt = 0;
+	flag = NO;
+	ptr = line;
+	start_ptr = line;
 
-	} 
-	fclose(fpin); 
-	fpin = fopen("id.txt", "rt"); 
-	a = (char**)malloc(w * sizeof(char*)); 
-	for (i = 0; i < w; i++) 
-	{ 
-		a[i] = (char*)malloc(max * sizeof(char)); 
-	} 
-	ptr = fgets(line, MAXLINE, fpin); 
-	i = 0; 
-	while (*ptr != 'М') //До конца файла 
-	{ 
-		if ((*ptr == '\n')) 
-		{ 
-			ptr = fgets(line, MAXLINE, fpin); 
-			if (ptr == NULL) 
-			break; 
-		} 
-		for (j = 0; j < max; j++) // цикл по столбцам 
-		{ 
-			if (*ptr == '\n') 
-			{ 
-				break; 
-			} 
-			if (*ptr == ' ' || *ptr == '.' || *ptr == ',') 
-			{ 
-				i++; 
-				ptr++; 
-				break; 
-			} 
-			a[i][j] = *ptr; 
-			ptr++; 
-		} 
-	} 
-	j = 0; 
-	for (i = 0; i < w; i++) // цикл по строкам 
-	{ 
-		if ((a[i][j] - 91) < 0) 
-		{ 
-			a[i][j] += 32; 
-		} 
-	} 
-	str = (char*)malloc(max * sizeof(char)); 
-	for (i = 1; i < w; i++) 
-	{ 
-		for (j = 0; j < w - i; j++) 
-		if (strcmp(a[j], a[j + 1]) > 0)		
-		{ 
-			strcpy(str, a[j]); 
-			strcpy(a[j], a[j + 1]); 
-			strcpy(a[j + 1], str); 
-		} 
-	} 
-	for (i = 0; i < w; i++) // цикл по строкам 
-	{ 
-		for (j = 0; j < max; j++) // цикл по столбцам 
-		{ 
-			printf("%c ", a[i][j]); 
-		} 
-		printf("\n"); 
-	} 
-	for (i=0; i < w; i++) 
+	arr = (char**)malloc( 10 * sizeof(char*) );
+
+	while( ptr = fgets(line, MAXLINE, fpin) )
 	{
-	//for (j=0;j < max; j++) {
+		while( *ptr )
+		{
+			if( *ptr >= 'A' && *ptr <= 'Z' || *ptr >= 'a' && *ptr <= 'z' )
+			{
+				if( !flag )
+				{
+					start_ptr = ptr;
+					word_cnt++;
+					arr = (char**)realloc( arr, word_cnt * sizeof(char*) );
+				}
 
-		free(a[i]);
-	//}
+				flag = YES;
+				word_len++;
+			}
+			else
+			{
+				if( flag )
+				{
+					*(arr + i) = (char*)malloc( (word_len + 1) * sizeof(char) );
+					strncpy( *(arr + i), start_ptr, word_len + 1 );
+					*( *(arr + i) + word_len ) = '\0';
+					start_ptr = *(arr + i);
+					while( *start_ptr )
+					{
+						if( *start_ptr - 91 < 0 )
+							*start_ptr += 32;
+
+						start_ptr++;
+					}
+					word_len = 0;
+					flag = NO;
+					i++;
+				}
+			}
+			ptr++;
+		}
 	}
-	fclose(fpin);
-	free(a);
-//for (j = 0; j < max; j++) {
 
-	free(str);
-//}
+	ptr = (char*)malloc( 15 * sizeof(char) );
+	k = i;
+	for (i = 1; i < k; i++) 
+	{ 
+		for (j = 0; j < k - i; j++) 
+		{
+			if (strcmp( *(arr + j), *(arr + j + 1) ) > 0)		
+			{ 
+				strcpy( ptr, *(arr + j) ); 
+				strcpy( *(arr + j), *(arr + j + 1) ); 
+				strcpy( *(arr + j + 1), ptr ); 
+			} 
+		}
+	}
 
-getchar(); getchar();
+	for( i = 0; i < k; i++ )  
+		puts( *(arr + i) );
+
+	getchar(); getchar();
+	return 0;
 }
