@@ -4,60 +4,65 @@
 #include <string.h>
 #include <time.h> 
 
-#define number 30 //максимальное количество групп
-#define dis 40 //макс количество учебных дисциплин
+#define number 30 //РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РіСЂСѓРїРї
+#define dis 40 //РјР°РєСЃ РєРѕР»РёС‡РµСЃС‚РІРѕ СѓС‡РµР±РЅС‹С… РґРёСЃС†РёРїР»РёРЅ
 
 
-struct student //описание студента
+struct student //РѕРїРёСЃР°РЅРёРµ СЃС‚СѓРґРµРЅС‚Р°
 {
-	//	int pr;//если есть запись то 1, если нет - 0
-	char surname[20];//фамилия
-	char name[20];//имя
-	int score[5];//5 оценок
-	float av_score; //средний балл
-	int verdict;//если 0 - нет долгов, 1-2 - допса, 3 и больше - отчислен
+	//	int pr;//РµСЃР»Рё РµСЃС‚СЊ Р·Р°РїРёСЃСЊ С‚Рѕ 1, РµСЃР»Рё РЅРµС‚ - 0
+	char surname[20];//С„Р°РјРёР»РёСЏ
+	char name[20];//РёРјСЏ
+	int score[5];//5 РѕС†РµРЅРѕРє
+	float av_score; //СЃСЂРµРґРЅРёР№ Р±Р°Р»Р»
+	int verdict;//РµСЃР»Рё 0 - РЅРµС‚ РґРѕР»РіРѕРІ, 1-2 - РґРѕРїСЃР°, 3 Рё Р±РѕР»СЊС€Рµ - РѕС‚С‡РёСЃР»РµРЅ
 };
 
-struct discipline //список дисциплин
+struct discipline //СЃРїРёСЃРѕРє РґРёСЃС†РёРїР»РёРЅ
 {
 	char name[40];
 };
 
-struct group //структура описания группы
+struct group //СЃС‚СЂСѓРєС‚СѓСЂР° РѕРїРёСЃР°РЅРёСЏ РіСЂСѓРїРїС‹
 {
-	int pr;//если данные заполнены, то 1, в противном случае 0
-	int num;//номер группы
-	int count;//число студентов
-	struct student stud[30];//массив "студентов" макс 30 человек в группе
-	struct discipline disc[5];//список экзаменнационных дисциплин для конкретной группы
+	int pr;//РµСЃР»Рё РґР°РЅРЅС‹Рµ Р·Р°РїРѕР»РЅРµРЅС‹, С‚Рѕ 1, РІ РїСЂРѕС‚РёРІРЅРѕРј СЃР»СѓС‡Р°Рµ 0
+	int num;//РЅРѕРјРµСЂ РіСЂСѓРїРїС‹
+	int count;//С‡РёСЃР»Рѕ СЃС‚СѓРґРµРЅС‚РѕРІ
+	struct student stud[30];//РјР°СЃСЃРёРІ "СЃС‚СѓРґРµРЅС‚РѕРІ" РјР°РєСЃ 30 С‡РµР»РѕРІРµРє РІ РіСЂСѓРїРїРµ
+	struct discipline disc[5];//СЃРїРёСЃРѕРє СЌРєР·Р°РјРµРЅРЅР°С†РёРѕРЅРЅС‹С… РґРёСЃС†РёРїР»РёРЅ РґР»СЏ РєРѕРЅРєСЂРµС‚РЅРѕР№ РіСЂСѓРїРїС‹
 };
 
 
-int count_group = 0, count_dis = 0;//количество групп, количество дисциплин
+int count_group = 0, count_dis = 0;//РєРѕР»РёС‡РµСЃС‚РІРѕ РіСЂСѓРїРї, РєРѕР»РёС‡РµСЃС‚РІРѕ РґРёСЃС†РёРїР»РёРЅ
 struct group spisok[number];
 struct discipline predmet[dis];
 
-void add();//добавление 
-void mod_group();//добавить группу
-void mod_gr_student(int i);//добавить студентов в новую групп
-void mod_student();//добавить студента в существующую
-void mod_disc();//добавить предмет
-void delet();//удаление
-void del_group();//удаление группы
-void del_student();//удаление студента
-void del_disc();//удаление дисциплины
-void sort();//сортировка
-void sort_group();//сортировка группы по алфавиту
-void sort_ball();//сортировка по среднему баллу
-void many();//сортировка по наличии стипендии
+void add();//РґРѕР±Р°РІР»РµРЅРёРµ 
+void mod_group();//РґРѕР±Р°РІРёС‚СЊ РіСЂСѓРїРїСѓ
+void mod_gr_student(int i);//РґРѕР±Р°РІРёС‚СЊ СЃС‚СѓРґРµРЅС‚РѕРІ РІ РЅРѕРІСѓСЋ РіСЂСѓРїРї
+void mod_student();//РґРѕР±Р°РІРёС‚СЊ СЃС‚СѓРґРµРЅС‚Р° РІ СЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ
+void mod_disc();//РґРѕР±Р°РІРёС‚СЊ РїСЂРµРґРјРµС‚
+void delet();//СѓРґР°Р»РµРЅРёРµ
+void del_group();//СѓРґР°Р»РµРЅРёРµ РіСЂСѓРїРїС‹
+void del_student();//СѓРґР°Р»РµРЅРёРµ СЃС‚СѓРґРµРЅС‚Р°
+void del_disc();//СѓРґР°Р»РµРЅРёРµ РґРёСЃС†РёРїР»РёРЅС‹
+void sort();//СЃРѕСЂС‚РёСЂРѕРІРєР°
+void sort_group();//СЃРѕСЂС‚РёСЂРѕРІРєР° РіСЂСѓРїРїС‹ РїРѕ Р°Р»С„Р°РІРёС‚Сѓ
+void sort_ball();//СЃРѕСЂС‚РёСЂРѕРІРєР° РїРѕ СЃСЂРµРґРЅРµРјСѓ Р±Р°Р»Р»Сѓ
+void many();//СЃРѕСЂС‚РёСЂРѕРІРєР° РїРѕ РЅР°Р»РёС‡РёРё СЃС‚РёРїРµРЅРґРёРё
 
 
 int main()
 {
 	int j, k, a, i;
-	FILE *file;
+	FILE *file = NULL;
 
-	file = fopen("C:\\dekanat.txt", "r");
+	file = fopen("dekanat.txt", "a+");/*СЂРµР¶РёРј РѕС‚РєСЂС‹С‚РёСЏ С„Р°Р№Р»Р°, РїСЂРё РєРѕС‚РѕСЂРѕРј РґР°РЅРЅС‹Рµ Р·Р°РїРёСЃС‹РІР°СЋС‚СЃСЏ 
+									  РІ РєРѕРЅРµС† С„Р°Р№Р»Р°, С„Р°Р№Р» СЃРѕР·РґР°РµС‚СЃСЏ, РµСЃР»Рё РµРіРѕ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚
+									  РµСЃР»Рё Р¶Рµ С„Р°Р№Р» РµСЃС‚СЊ, С‚Рѕ РґР°РЅРЅС‹Рµ РІ РЅРµРј РѕСЃС‚Р°РЅСѓС‚СЃСЏ РЅРµС‚СЂРѕРЅСѓС‚С‹РјРё*/
+	fclose(file);
+
+	file = fopen("dekanat.txt", "r");
 
 	if (file != NULL)
 	{
@@ -90,7 +95,11 @@ int main()
 	}
 	fclose(file);
 
-	file = fopen("C:\\predmet.txt", "r");
+
+	file = fopen("predmet.txt", "a+");
+	fclose(file);
+
+	file = fopen("predmet.txt", "r");
 	if (file != NULL)
 	{
 		fscanf(file, "%i", &count_dis);
@@ -100,6 +109,10 @@ int main()
 		}
 	}
 	fclose(file);
+	if (count_dis == 0)
+	{
+		printf("Vvedite predmeti(vvod zapisi -> Disciplina)!\nPotom vvedite gruppu(vvod zapisi -> Gruppa)\n\n");
+	}
 	do{
 
 		printf("\n Viberite deistvie:\n\n\n");
@@ -122,7 +135,6 @@ int main()
 			sort();
 			break;
 		case 4: system("cls");
-			printf("Doctora po alfavitu\n\n");
 			many();
 			break;
 		case 5: system("cls");
@@ -131,7 +143,7 @@ int main()
 		}
 	} while (a != 5);
 
-	file = fopen("C:\\dekanat.txt", "w");
+	file = fopen("dekanat.txt", "w");
 
 	if (file != NULL)
 	{
@@ -164,7 +176,7 @@ int main()
 	}
 	fclose(file);
 
-	file = fopen("C:\\predmet.txt", "w");
+	file = fopen("predmet.txt", "w");
 	if (file != NULL)
 	{
 		fprintf(file, "%i\n", count_dis);
@@ -178,7 +190,7 @@ int main()
 	return 0;
 }
 
-void add()//выбор добавления
+void add()//РІС‹Р±РѕСЂ РґРѕР±Р°РІР»РµРЅРёСЏ
 {
 	int a;
 	printf("1.Gruppa\n2.Student\n3.Disciplina\nVibor: ");
@@ -197,15 +209,17 @@ void add()//выбор добавления
 	}
 }
 
-void mod_group()//добавление в группу
+void mod_group()//РґРѕР±Р°РІР»РµРЅРёРµ РІ РіСЂСѓРїРїСѓ
 {
 	printf("%i\n", count_group);
-	int i, n;
+	int i, n, m;
 	spisok[count_group].pr = 1;
 	spisok[count_group].count = 0;
 	printf("Nomer gruppi: ");
 	scanf("%i", &spisok[count_group].num);
-	for (i = 0; i<3; i++)
+	printf("Kolichestvo studentov v gruppe(2 - 25): ");
+	scanf("%i", &m);
+	for (i = 0; i<m; i++)
 		mod_gr_student(i);
 	printf("predmeti\n\n");
 	for (i = 0; i<count_dis; i++)
@@ -221,7 +235,7 @@ void mod_group()//добавление в группу
 	printf("%i\n", count_group);
 }
 
-void mod_gr_student(int i)//при вводе новой группы;
+void mod_gr_student(int i)//РїСЂРё РІРІРѕРґРµ РЅРѕРІРѕР№ РіСЂСѓРїРїС‹;
 {
 	int j;
 	spisok[count_group].stud[i].av_score = 0;
@@ -241,7 +255,7 @@ void mod_gr_student(int i)//при вводе новой группы;
 	printf("\n%i\n", spisok[count_group].count);
 }
 
-void mod_student()//при вводе нового студента добавляем его в введенную группу;
+void mod_student()//РїСЂРё РІРІРѕРґРµ РЅРѕРІРѕРіРѕ СЃС‚СѓРґРµРЅС‚Р° РґРѕР±Р°РІР»СЏРµРј РµРіРѕ РІ РІРІРµРґРµРЅРЅСѓСЋ РіСЂСѓРїРїСѓ;
 {
 	int j, i, num_group;
 	int end;
@@ -275,14 +289,14 @@ void mod_student()//при вводе нового студента добавляем его в введенную группу;
 	printf("\n%i\n", spisok[count_group].count);
 }
 
-void mod_disc()//добавление предмета
+void mod_disc()//РґРѕР±Р°РІР»РµРЅРёРµ РїСЂРµРґРјРµС‚Р°
 {
 	printf("Vvedite predmet: ");
 	scanf("%s", &predmet[count_dis]);
 	count_dis++;
 }
 
-void delet()//выбор удаления
+void delet()//РІС‹Р±РѕСЂ СѓРґР°Р»РµРЅРёСЏ
 {
 	int a;
 	printf("1.Gruppa\n2.Student\n3.Disciplina\nVibor: ");
@@ -300,7 +314,7 @@ void delet()//выбор удаления
 	}
 }
 
-void del_group()//удаление группы
+void del_group()//СѓРґР°Р»РµРЅРёРµ РіСЂСѓРїРїС‹
 {
 	int i, num_group;
 	struct group r;
@@ -320,7 +334,7 @@ void del_group()//удаление группы
 	count_group--;
 }
 
-void del_student()//удаление студента
+void del_student()//СѓРґР°Р»РµРЅРёРµ СЃС‚СѓРґРµРЅС‚Р°
 {
 	struct student r;
 	int j, i, num_group, num_stud;
@@ -353,7 +367,7 @@ void del_student()//удаление студента
 		}
 }
 
-void del_disc()//удаление предмета
+void del_disc()//СѓРґР°Р»РµРЅРёРµ РїСЂРµРґРјРµС‚Р°
 {
 	struct discipline r;
 	int i, num_dis=0;
@@ -371,7 +385,7 @@ void del_disc()//удаление предмета
 	count_dis--;
 }
 
-void sort()//выбор сортировки
+void sort()//РІС‹Р±РѕСЂ СЃРѕСЂС‚РёСЂРѕРІРєРё
 {
 	int a;
 	printf("1.Sortirovka gruppi\n2.Sortirovka po srednemu ballu\nVibor: ");
@@ -388,7 +402,7 @@ void sort()//выбор сортировки
 	}
 }
 
-void sort_group()//сортировка по алфавиту
+void sort_group()//СЃРѕСЂС‚РёСЂРѕРІРєР° РїРѕ Р°Р»С„Р°РІРёС‚Сѓ
 {
 	int i, j, num_group;
 	struct student r;
@@ -411,7 +425,7 @@ void sort_group()//сортировка по алфавиту
 		printf("%s %s\n", spisok[num_group].stud[j].surname, spisok[num_group].stud[j].name);
 }
 
-void sort_ball()//сортровка по среднему баллу
+void sort_ball()//СЃРѕСЂС‚СЂРѕРІРєР° РїРѕ СЃСЂРµРґРЅРµРјСѓ Р±Р°Р»Р»Сѓ
 {
 	int i, j, num_group;
 	struct student r;
@@ -434,7 +448,7 @@ void sort_ball()//сортровка по среднему баллу
 		printf("%s %s %.2f\n", spisok[num_group].stud[j].surname, spisok[num_group].stud[j].name, spisok[num_group].stud[j].av_score);
 }
 
-void many()//стипендия 
+void many()//СЃС‚РёРїРµРЅРґРёСЏ 
 {
 	int num_group, i, j;
 	printf("Vse gruppi\n\n");
