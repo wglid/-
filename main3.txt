@@ -1,0 +1,44 @@
+#include <iostream>
+#include <locale>
+#include "Parallelepiped.h"
+#include "Sphere.h"
+#include "Tetrahedron.h"
+#include "Functions.h"
+
+using namespace std;
+
+int main() {
+	setlocale(LC_ALL, "ru");
+
+	Square *mass[3] = { new Parallelepiped, new Sphere, new Tetrahedron};
+
+	int figure;
+	bool flag = true;
+
+	while (flag)
+	{
+		system("cls");
+		cout << "1) Параллелепипед" << endl;
+		cout << "2) Шар" << endl;
+		cout << "3) Тетраэдр" << endl;
+		cout << "0) Выход из программы" << endl;
+		cout << "Выберите команду: ";
+		cin >> figure;
+		if (cin.fail()) {
+			figure = -1;
+			cin.clear();
+			cin.ignore(10000, '\n');
+		}
+
+		switch (figure)
+		{
+		case 1:	menuFigure(mass[0]); break;
+		case 2: menuFigure(mass[1]); break;
+		case 3: menuFigure(mass[2]); break;
+		case 0: flag = false;
+		}
+	}
+
+	for (int i = 0; i < 3; ++i)
+		delete mass[i];
+}
