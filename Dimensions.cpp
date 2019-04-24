@@ -1,0 +1,118 @@
+#include <iostream>
+#include "Dimensions.h"
+
+using namespace std;
+
+Dimensions::Dimensions(int height, int width, int depth) {
+	this->height = height;
+	this->depth = depth;
+	this->width = width;
+}
+
+Dimensions::Dimensions(const Dimensions & other) {
+	this->height = other.height;
+	this->depth = other.depth;
+	this->width = other.width;
+}
+
+int Dimensions::maxValue() {
+	int max = height;
+	(width > max) ? max = width : 1;
+	(depth > max) ? max = depth : 1;
+	return max;
+}
+
+int Dimensions::minValue() {
+	int min = height;
+	(width < min) ? min = width : 1;
+	(depth < min) ? min = depth : 1;
+	return min;
+}
+
+void Dimensions::show() {
+	cout << "Высота: " << height << endl;
+	cout << "Ширина: " << width << endl;
+	cout << "Глубина: " << depth << endl << endl;
+}
+
+Dimensions Dimensions::operator++(int) {
+	Dimensions tmp(*this);
+
+	int value;
+	int menu;
+	bool flag = true;
+	system("cls");
+	cout << "Введите значение для увелечения: ";
+	cin >> value;
+	while (flag)
+	{ 
+		system("cls");
+		cout << endl << "Выберите, что хотите увеличить:" << endl;
+		cout << "1 - Высота" << endl;
+		cout << "2 - Ширина" << endl;
+		cout << "3 - Глубина" << endl;
+		cout << "0 - Отмена" << endl;
+		cin >> menu;
+		if (cin.fail()) {
+			menu = -1;
+			cin.clear();
+			cin.ignore(10000, '\n');
+		}
+		switch (menu) {
+		case 1: this->height += value; flag = false; break;
+		case 2: this->width += value; flag = false; break;
+		case 3: this->depth += value; flag = false; break;
+		case 0: flag = false;
+		}
+	}
+
+	return tmp;
+}
+
+Dimensions & Dimensions::operator--() {
+	int value;
+	int menu;
+	bool flag = true;
+	system("cls");
+	cout << "Введите значение для уменьшения: ";
+	cin >> value;
+	while (flag)
+	{
+		system("cls");
+		cout << endl << "Выберите, что хотите уменьшить:" << endl;
+		cout << "1 - Высота" << endl;
+		cout << "2 - Ширина" << endl;
+		cout << "3 - Глубина" << endl;
+		cout << "0 - Отмена" << endl;
+		cin >> menu;
+		if (cin.fail()) {
+			menu = -1;
+			cin.clear();
+			cin.ignore(10000, '\n');
+		}
+		switch (menu) {
+		case 1: this->height -= value; flag = false; break;
+		case 2: this->width -= value; flag = false; break;
+		case 3: this->depth -= value; flag = false; break;
+		case 0: flag = false;
+		}
+	}
+	return *this;
+}
+
+Dimensions & operator++(Dimensions & ob) {
+	int max = ob.maxValue();
+	ob.depth += max;
+	ob.height += max;
+	ob.width += max;
+	return ob;
+}
+
+Dimensions operator--(Dimensions & ob, int) {
+	Dimensions tmp(ob);
+	int min = ob.minValue();
+	ob.depth -= min;
+	ob.height -= min;
+	ob.width -= min;
+	return tmp;
+}
