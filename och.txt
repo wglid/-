@@ -1,0 +1,148 @@
+#include "och.h"
+#include "el.h"
+
+int och::num()
+{
+	return count;
+}
+struct el* och::getHead()
+{
+	return head;
+}
+struct el* och::setHead(struct el* newHead)
+{
+	head = newHead;
+	return head;
+}
+void och::countEdit(int num)
+{
+	count = count + num;
+}
+void och::put()
+{
+	if(getHead() == NULL)//провер€ет пуста€ ли очередь
+	{
+		struct el* current = setHead(new el);//создаю новый элемент структуры
+		current->prev = NULL; //пред эл который равен 0
+		cout << "x = ";
+		cin >> current->x; //запись значени€ элемента
+		countEdit(1); // если истина измен€етс€ кол-во элементов
+		cout << "Ёлемент успешно добавлен" << endl;
+		system("pause");
+	}
+	else //создаем новый el,делаем указатель на предыдущий 
+	{
+		el *current = getHead(); //присваиваем эл конец очереди
+		el *newHead = new el;  // создаетс€ нова€ голова 
+		cout << "x = ";
+		cin >> newHead->x; //ввод элемента с клавы
+		newHead->prev = current; //ссылка в прошлую голову
+		setHead(newHead); //голова теперь нова€ голова
+		countEdit(1);
+		cout << "Ёлемент успешно добавлен" << endl;
+		system("pause");
+	}
+}
+void och::cut()
+{
+	int i = num(); // передача общего кол -ва элемента
+	el *current = getHead(); // конец очереди
+	el *buf; //создаем переменную 
+	if (!getHead()) 
+	{
+		cout << "ќчередь пуста" << endl;
+		system("pause");
+		return;
+	}
+	buf = getHead(); //принимает указатель на последний	 элемент
+	while (buf->prev->prev != NULL) 
+	{
+		buf = buf->prev;
+	}
+	delete buf->prev->prev; //удал€ем последний
+	buf->prev = NULL; //предпослед. становитьс€ концом
+	countEdit(-1);
+	cout << "Ёлемент успешно извлечен из очереди" << endl;
+	system("pause");
+}
+
+void och::show()
+{
+	int i = num();
+	el *current = head;
+	if (!head)
+	{
+		cout << "ќчередь пуста" << endl;
+		system("pause");
+		return;
+	}
+	while (current != NULL)
+	{
+		cout << "[" << i-- << "] " << current->x << endl;
+		current = current->prev;
+	}
+	system("pause");
+}
+
+void och::copy(och *copy)
+{
+	if (!count) //если пуста€
+	{
+		cout << "ќчередь пуста" << endl;
+		system("pause");
+		return;
+	}
+	el *current = head; 
+	el *c_Current = new el; // ѕеременна€ дл€ обращени€ к копи€м
+	copy->head = c_Current; //в копи очереди его последним ставим
+	c_Current->x = current->x;
+	current = current->prev; //сдвиг указател€
+	while (current != nullptr)
+	{
+		c_Current->prev = new el;
+		c_Current = c_Current->prev;
+		c_Current->x = current->x;
+		current = current->prev;
+	}
+	c_Current->prev = NULL;
+	copy->count = count;
+	cout << "ќчередь успешно скопирована" << endl;
+	system("pause");
+}
+
+void och::sub(och &res, och &copy) 
+{
+	int *mass_q1 = new int[var]; 
+	int *mass_copy = new int[copy.var]; 
+	Data *tmp_q = tail; 
+	Data *tmp_copy = copy.tail; 
+	int i1 = res.var; 
+	int i2 = copy.var - 1; 
+	while (i1 > 0)
+	{
+		res.pop();
+		i1--;
+	} 
+	i1 = var - 1; 
+	while (i1 > 0)
+	{
+		mass_q1[i1] = tmp_q->value;
+		tmp_q = tmp_q->prev;
+		i1--;
+	} 
+	mass_q1[i1] = tmp_q->value;
+	while (i2 > 0)
+	{
+		mass_copy[i2] = tmp_copy->value;
+		tmp_copy = tmp_copy->prev;
+		i2--;
+	}
+	mass_copy[i2] = tmp_copy->value; 
+	for (; i1 < var; i1++)
+		res.push(mass_q1[i1]); 
+	for (; i2 < copy.var; i2++)
+		res.push(mass_copy[i2]); 
+	delete[] mass_copy;
+	delete[] mass_q1; 
+	res.pin(); 
+} 

@@ -1,0 +1,84 @@
+#pragma once
+#include <J:/техпрога/och.h>
+#include <conio.h>
+#include "el.h"
+using namespace std;
+int main()
+{
+	int menu;
+	och a, copinggagen, soups;
+	Qpublic pub;
+	Qprotected prot;
+	Qprivate priv;
+	int x, y; 
+	setlocale(LC_ALL, "Russian");
+	while(true)
+	{
+		system("CLS");
+		cout << "1 Ц ƒобавить элемент" << endl
+			<< "2 Ц »звлечь элемент" << endl
+			<< "3 Ц ¬ывести очередь на экран" << endl
+			<< "4 Ц ¬ычислить требуемое значение" << endl
+			<< "5 Ц —оздать копию" << endl
+			<< "6 Ц —лить оригинальную очередь с копией" << endl
+			<< "7 Ц ¬ыйти" << endl;
+		cin >> menu;
+		switch (menu)
+		{
+		case 7:
+			return 0;
+		case 1:
+			a.put();
+			break;
+		case 2:
+			a.cut();
+			break;
+		case 3:
+			a.show();
+			break;
+		case 4:
+			cout << " акой тип наследовани€?" << endl
+				<< "1 - Public" << endl
+				<< "2 - Protected" << endl
+				<< "3 - Private" << endl;
+			cin >> y;
+			switch (y)
+			{
+			case 1:
+				pub.setHead(a.getHead()); //указываем на указатель основной очереди
+				pub.countEdit(a.num()); //указываем на кол-во элементов
+				pub.process();
+				break;
+			case 2:
+				prot.set(a.getHead());
+				prot.setNum(a.num());
+				prot.process();
+				break;
+			case 3:
+				priv.set(a.getHead());
+				priv.setNum(a.num());
+				priv.process();
+				break;
+			default:
+				break;
+			}
+			break;
+		case 5:
+			a.copy(&copinggagen);
+			cout << "¬ывести ее на экран?" << endl;
+			cin >> x;
+			if (x)
+			{
+				copinggagen.show();
+			}
+			break;
+		case 6:
+			soups.sub(&a,&copinggagen);
+			soups.show();
+			break;
+		default:
+			break;
+		}
+	}
+	system("pause");
+}
