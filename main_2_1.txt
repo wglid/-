@@ -1,0 +1,55 @@
+#include <iostream>
+#include <locale>
+#include "Dimensions.h"
+
+using namespace std;
+
+int main() {
+	setlocale(LC_ALL, "ru");
+
+	int height;
+	int width;
+	int depth;
+
+	cout << "Введите высоту: ";
+	cin >> height;
+	cout << "Введите ширину: ";
+	cin >> width;
+	cout << "Введите глубину: ";
+	cin >> depth;
+
+	Dimensions a(height, width, depth);
+	Dimensions b;
+	int menu;
+	bool flag = true;
+
+	while (flag)
+	{
+		system("cls");
+		cout << "Объект a:" << endl;
+		a.show();
+		cout << "Объект b:" << endl;
+		b.show();
+		cout << "1) b = ++a" << endl;
+		cout << "2) b = a++" << endl;
+		cout << "3) b = --a" << endl;
+		cout << "4) b = a--" << endl;
+		cout << "0) Выход" << endl;
+		cout << "Выберите команду: ";
+		cin >> menu;
+		if (cin.fail()) {
+			menu = -1;
+			cin.clear();
+			cin.ignore(10000, '\n');
+		}
+
+		switch (menu)
+		{
+		case 1: b = ++a; break;
+		case 2: b = a++; break;
+		case 3: b = --a; break;
+		case 4: b = a--; break;
+		case 0: flag = false;
+		}
+	}
+}
